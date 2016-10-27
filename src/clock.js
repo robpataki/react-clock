@@ -3,7 +3,7 @@ import React from 'react';
 const Clock = React.createClass({
   getDefaultProps: () => {
     return {
-      radius: 120,
+      radius: 90,
       theme: 'mono-multi-light'
     }
   },
@@ -132,7 +132,7 @@ const Clock = React.createClass({
     } else {
       theme = themes[themeId];
     }
-    
+
     return theme;
   },
 
@@ -201,5 +201,10 @@ const Clock = React.createClass({
     );
   }
 });
+
+Clock.propTypes = {
+  theme: React.PropTypes.object,
+  radius: React.PropTypes.number
+};
 
 export default Clock;
