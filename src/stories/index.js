@@ -1,6 +1,6 @@
 import React from 'react';
-import { storiesOf, action, linkTo } from '@kadira/storybook';
-import Clock from '../clock';
+import { storiesOf } from '@kadira/storybook';
+import Clock from '../index';
 
 storiesOf('Clock', module)
   .add('default view', () => (
@@ -10,15 +10,12 @@ storiesOf('Clock', module)
       process.env.STORYBOOK_CLOUD_DATABASE: {process.env.STORYBOOK_CLOUD_DATABASE}
     </pre>
   ))
-  .add('clock', () => (
+  .add('ticking clock', () => (
     <Clock />
   ))
-  .add('huge clock', () => (
-    <Clock radius="200"/>
+  .add('frozen clock', () => (
+    <Clock time="09:45" />
   ))
-  .add('sailor\'s clock', () => (
-    <Clock theme="mono-navi"/>
-  ))
-  .add('custom clock', () => (
-    <Clock theme={{bezel: 'black', face: 'grey', hour: 'lightgrey', minute: 'darkgrey', second: 'black'}}/>
-  ))
+  .add('custom size clock', () => (
+    <Clock radius="200" />
+  ));
