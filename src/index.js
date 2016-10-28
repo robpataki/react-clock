@@ -7,6 +7,7 @@ const THEMES = {
     hour: '#E63946',
     minute: '#457B9D',
     second: '#A8DADC',
+    dot: '333333',
   },
   light: {
     bezel: '#A8DADC',
@@ -14,6 +15,7 @@ const THEMES = {
     hour: '#1D3557',
     minute: '#457B9D',
     second: '#E63946',
+    dot: '#F1FAEE',
   },
 };
 
@@ -53,11 +55,47 @@ class Clock extends React.Component {
       });
       this.startTimer();
     }
+
+    this.setState({ theme: this.findThemeById('light')});
+  }
+
+  componentWillUnmount() {
+    this.stopTimer();
+  }
+
+  findThemeById(themeId) {
+    return THEMES[themeId];
+  }
+
+  getPointByDegree(angleInDegrees, radius, centerX, centerY) {
+    const x = (radius * Math.cos((angleInDegrees - 90) * Math.PI / 180)) + centerX;
+    const y = (radius * Math.sin((angleInDegrees - 90) * Math.PI / 180)) + centerY;
+
+    return {
+      x,
+      y,
+    };
   }
 
   getCurrentTimeString() {
     const now = new Date();
     return [now.getHours(), now.getMinutes(), now.getSeconds()].join(':');
+  }
+
+  startTimer() {
+    this.setState({ status: STATUSES.ticking });
+
+    const _this = this;
+    this.timer = setInterval(function () {
+      _this.setState({
+        time: _this.convertTimeStringToHash(_this.getCurrentTimeString()),
+      });
+    }, 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.timer);
+    this.timer = undefined;
   }
 
   convertTimeStringToHash(timeString) {
@@ -78,24 +116,90 @@ class Clock extends React.Component {
     };
   }
 
-  startTimer() {
-    this.setState({ status: STATUSES.ticking });
-
-    const _this = this;
-    this.timer = setInterval(function () {
-      _this.setState({
-        time: _this.convertTimeStringToHash(_this.getCurrentTimeString()),
-      });
-    }, 1000);
-  }
-
   render() {
+    const { radius } = this.props;
+    const { time, theme } = this.state;
+
+    const centerX = radius * 0.5;
+    const centerY = radius * 0.5;
+    const strokeWidth = radius * 0.02;
+    const compactRadius = radius - strokeWidth;
+    // const compactDiameter = compactRadius * 0.5;
+
+    // Calculating hours
+    const hoursDegree = (time.h + time.m / 60) / 12 * 360;
+    const hoursHandleSize = Math.ceil(compactRadius * 0.3);
+    const hoursHandleEndPoint = this.getPointByDegree(
+      hoursDegree, hoursHandleSize, centerX, centerY
+    );
+    const hoursHandleWidth = Math.ceil(compactRadius * 0.04);
+
+    // Calculating minutes
+    const minutesDegree = time.m / 60 * 360;
+    const minutesHandleSize = Math.ceil(compactRadius * 0.36);
+    const minutesHandleEndPoint = this.getPointByDegree(
+      minutesDegree, minutesHandleSize, centerX, centerY
+    );
+    const minutesHandleWidth = Math.ceil(compactRadius * 0.03);
+
+    // Calculating seconds
+    const secondsDegree = time.s / 60 * 360;
+    const secondsHandleSize = Math.ceil(compactRadius * 0.42);
+    const secondsHandleEndPoint = this.getPointByDegree(
+      secondsDegree, secondsHandleSize, centerX, centerY
+    );
+    const secondsHandleWidth = Math.ceil(compactRadius * 0.015);
+
+    const dotSize = Math.ceil(compactRadius * 0.015);
+
+    const clockStyle = {
+      position: 'relative',
+      width: `${radius}px`,
+      height: `${radius}px`,
+    };
+
+    const { dot, face, bezel, hour, minute, second } = theme;
+
     return (
-      <div>{ [this.state.time.h, this.state.time.m, this.state.time.s].join(':') }</div>
+      <div style={ clockStyle }>
+        <svg width={ radius } height={ radius } viewBox={ `0 0 ${radius} ${radius}` } xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
+          <g>
+            /* Bezel */
+            <circle cx={ centerX } cy={ centerY } r={ radius * 0.5 } fill={ bezel } />
+
+            /* Clock face */
+            <circle cx={ centerX } cy={ centerY } r={ compactRadius * 0.5 } fill={ face } />
+          </g>
+
+          <g>
+            /* Hour hand */
+            <line x1={ centerX } y1={ centerY } x2={ hoursHandleEndPoint.x }
+              y2={ hoursHandleEndPoint.y } strokeWidth={ hoursHandleWidth }
+              strokeLinecap="round" stroke={ hour }
+            />
+
+            /* Minute hand */
+            <line x1={ centerX } y1={ centerY } x2={ minutesHandleEndPoint.x }
+              y2={ minutesHandleEndPoint.y } strokeWidth={ minutesHandleWidth }
+              strokeLinecap="round" stroke={ minute }
+            />
+
+            /* Seconds hand */
+            <line x1={ centerX } y1={ centerY } x2={ secondsHandleEndPoint.x }
+              y2={ secondsHandleEndPoint.y } strokeWidth={ secondsHandleWidth }
+              strokeLinecap="round" stroke={ second }
+            />
+
+            /* Middle dot */
+            <circle cx={ centerX } cy={ centerY } r={ dotSize } fill={ dot } />
+          </g>
+        </svg>
+      </div>
     );
   }
 }
 
+/* TODO - See multiple type checking */
 Clock.propTypes = {
   theme: React.PropTypes.object,
   radius: React.PropTypes.number,

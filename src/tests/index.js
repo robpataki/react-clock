@@ -8,50 +8,59 @@ const { describe, it } = global;
 
 describe('Clock', () => {
   it('should exist', () => {
-    const clock = shallow(<Clock />);
-    expect(clock).toExist();
+    const wrapper = shallow(<Clock />);
+    expect(wrapper).toExist();
   });
 
   it('should have a default `radius` prop', () => {
-    const clock = mount(<Clock />);
-    expect(typeof clock.props().radius).toBe('number');
+    const wrapper = mount(<Clock />);
+    expect(typeof wrapper.props().radius).toBe('number');
+  });
+
+  it('should use the `radius` prop to draw the SVG', () => {
+    const wrapper = mount(<Clock radius="100" />);
+    const svgEl = wrapper.find({ width: '100', height: '100', viewBox: '0 0 100 100' });
+    expect(svgEl.type()).toEqual('svg');
+
+    expect(wrapper.html().toString().indexOf('width: 100px;') > 0).toBe(true);
+    expect(wrapper.html().toString().indexOf('height: 100px;') > 0).toBe(true);
   });
 
   describe('with `time` prop', () => {
     it('should keep the time prop unchanged', (done) => {
-      const clock = mount(<Clock time="12:30" />);
+      const wrapper = mount(<Clock time="12:30" />);
 
       setTimeout(() => {
-        expect(clock.state().time).toEqual({ h: 12, m: 30, s: 0 });
+        expect(wrapper.state().time).toEqual({ h: 12, m: 30, s: 0 });
         done();
       }, 1100);
     });
 
     it('should not be ticking', () => {
-      const clock = mount(<Clock time="12:30" />);
-      expect(clock.state().status).toEqual(Clock.STATUSES.stopped);
+      const wrapper = mount(<Clock time="12:30" />);
+      expect(wrapper.state().status).toEqual(Clock.STATUSES.stopped);
     });
   });
 
-  /* TODO - Should do sanity check on time input */
-
   describe('without `time` prop', () => {
     it('should be ticking', () => {
-      const clock = mount(<Clock />);
-      expect(clock.state().status).toEqual(Clock.STATUSES.ticking);
+      const wrapper = mount(<Clock />);
+      expect(wrapper.state().status).toEqual(Clock.STATUSES.ticking);
     });
 
     it('should update the time automatically when time prop isn\'t passed in', (done) => {
-      const clock = mount(<Clock />);
-      const firstTime = clock.state().time;
+      const wrapper = mount(<Clock />);
+      const firstTime = wrapper.state().time;
 
       setTimeout(() => {
-        expect(clock.state().time).toNotEqual(firstTime);
+        expect(wrapper.state().time).toNotEqual(firstTime);
         done();
       }, 1100);
     });
   });
 
-  /* When the component is unmounted */
-  /* Theming */
+  /* TODO - Should do sanity check on time input */
+  /* TODO - Test default themes */
+  /* TODO - Test custom theming */
+  /* TODO - See if there is a way to test the timer being stopped on unmount */
 });
