@@ -4,7 +4,7 @@ import expect from 'expect';
 
 import Clock from '../index';
 
-const { describe, it } = global;
+const { describe, it, beforeEach } = global;
 
 describe('Clock', () => {
   it('should exist', () => {
@@ -59,8 +59,62 @@ describe('Clock', () => {
     });
   });
 
-  /* TODO - Should do sanity check on time input */
+  describe('getCurrentTimeString', () => {
+    it('should return a : delimeted string with the current time\'s h, m, s values', () => {
+      const now = new Date();
+      const expected = [now.getHours(), now.getMinutes(), now.getSeconds()].join(':');
+      const actual = Clock.getCurrentTimeString();
+      expect(expected).toEqual(actual);
+    });
+  });
+
+  describe('convertTimeStringToHash', () => {
+    it('should convert a `h:m:s` formatted string to {h, m, s} formatted object', () => {
+      expect(Clock.convertTimeStringToHash('16:12:10')).toEqual({ h: 16, m: 12, s: 10 });
+    });
+  });
+
+  describe('getPointByDegree', () => {
+    let radius;
+    let centerX;
+    let centerY;
+
+    beforeEach(() => {
+      radius = 100;
+      centerX = centerY = radius;
+    });
+
+    it('should return the correct x/y positions for 3 o\'clock ', () => {
+      let actual = Clock.getPointByDegree(90, radius, centerX, centerY);
+      actual = { x: Math.round(actual.x), y: Math.round(actual.y) };
+      const expected = { x: 200, y: 100 };
+      expect(expected).toEqual(actual);
+    });
+
+    it('should return the correct x/y positions for 6 o\'clock ', () => {
+      let actual = Clock.getPointByDegree(180, radius, centerX, centerY);
+      actual = { x: Math.round(actual.x), y: Math.round(actual.y) };
+      const expected = { x: 100, y: 200 };
+      expect(expected).toEqual(actual);
+    });
+
+    it('should return the correct x/y positions for 9 o\'clock ', () => {
+      let actual = Clock.getPointByDegree(270, radius, centerX, centerY);
+      actual = { x: Math.round(actual.x), y: Math.round(actual.y) };
+      const expected = { x: 0, y: 100 };
+      expect(expected).toEqual(actual);
+    });
+
+    it('should return the correct x/y positions for 12 o\'clock ', () => {
+      let actual = Clock.getPointByDegree(360, radius, centerX, centerY);
+      actual = { x: Math.round(actual.x), y: Math.round(actual.y) };
+      const expected = { x: 100, y: 0 };
+      expect(expected).toEqual(actual);
+    });
+  });
+
   /* TODO - Test default themes */
   /* TODO - Test custom theming */
+  /* TODO - Should do sanity check on time input */
   /* TODO - See if there is a way to test the timer being stopped on unmount */
 });

@@ -33,72 +33,12 @@ class Clock extends React.Component {
     return STATUSES;
   }
 
-  constructor(props, context) {
-    super(props, context);
-
-    // Set initial state
-    let time = '00:00:00';
-    if (typeof props.time !== 'undefined') {
-      time = props.time;
-    }
-
-    this.state = {
-      time: this.convertTimeStringToHash(time),
-      status: STATUSES.stopped,
-    };
-  }
-
-  componentWillMount() {
-    if (typeof this.props.time === 'undefined') {
-      this.setState({
-        time: this.convertTimeStringToHash(this.getCurrentTimeString()),
-      });
-      this.startTimer();
-    }
-
-    this.setState({ theme: this.findThemeById('light')});
-  }
-
-  componentWillUnmount() {
-    this.stopTimer();
-  }
-
-  findThemeById(themeId) {
-    return THEMES[themeId];
-  }
-
-  getPointByDegree(angleInDegrees, radius, centerX, centerY) {
-    const x = (radius * Math.cos((angleInDegrees - 90) * Math.PI / 180)) + centerX;
-    const y = (radius * Math.sin((angleInDegrees - 90) * Math.PI / 180)) + centerY;
-
-    return {
-      x,
-      y,
-    };
-  }
-
-  getCurrentTimeString() {
+  static getCurrentTimeString() {
     const now = new Date();
     return [now.getHours(), now.getMinutes(), now.getSeconds()].join(':');
   }
 
-  startTimer() {
-    this.setState({ status: STATUSES.ticking });
-
-    const _this = this;
-    this.timer = setInterval(function () {
-      _this.setState({
-        time: _this.convertTimeStringToHash(_this.getCurrentTimeString()),
-      });
-    }, 1000);
-  }
-
-  stopTimer() {
-    clearInterval(this.timer);
-    this.timer = undefined;
-  }
-
-  convertTimeStringToHash(timeString) {
+  static convertTimeStringToHash(timeString) {
     let h = 0;
     let m = 0;
     let s = 0;
@@ -116,6 +56,66 @@ class Clock extends React.Component {
     };
   }
 
+  static getPointByDegree(angleInDegrees, radius, centerX, centerY) {
+    const x = (radius * Math.cos((angleInDegrees - 90) * Math.PI / 180)) + centerX;
+    const y = (radius * Math.sin((angleInDegrees - 90) * Math.PI / 180)) + centerY;
+
+    return {
+      x,
+      y,
+    };
+  }
+
+  constructor(props, context) {
+    super(props, context);
+
+    // Set initial state
+    let time = '00:00:00';
+    if (typeof props.time !== 'undefined') {
+      time = props.time;
+    }
+
+    this.state = {
+      time: Clock.convertTimeStringToHash(time),
+      status: STATUSES.stopped,
+    };
+  }
+
+  componentWillMount() {
+    if (typeof this.props.time === 'undefined') {
+      this.setState({
+        time: Clock.convertTimeStringToHash(Clock.getCurrentTimeString()),
+      });
+      this.startTimer();
+    }
+
+    this.setState({ theme: this.findThemeById('light') });
+  }
+
+  componentWillUnmount() {
+    this.stopTimer();
+  }
+
+  findThemeById(themeId) {
+    return THEMES[themeId];
+  }
+
+  startTimer() {
+    this.setState({ status: STATUSES.ticking });
+
+    const _this = this;
+    this.timer = setInterval(function () {
+      _this.setState({
+        time: Clock.convertTimeStringToHash(Clock.getCurrentTimeString()),
+      });
+    }, 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.timer);
+    this.timer = undefined;
+  }
+
   render() {
     const { radius } = this.props;
     const { time, theme } = this.state;
@@ -129,7 +129,7 @@ class Clock extends React.Component {
     // Calculating hours
     const hoursDegree = (time.h + time.m / 60) / 12 * 360;
     const hoursHandleSize = Math.ceil(compactRadius * 0.3);
-    const hoursHandleEndPoint = this.getPointByDegree(
+    const hoursHandleEndPoint = Clock.getPointByDegree(
       hoursDegree, hoursHandleSize, centerX, centerY
     );
     const hoursHandleWidth = Math.ceil(compactRadius * 0.04);
@@ -137,7 +137,7 @@ class Clock extends React.Component {
     // Calculating minutes
     const minutesDegree = time.m / 60 * 360;
     const minutesHandleSize = Math.ceil(compactRadius * 0.36);
-    const minutesHandleEndPoint = this.getPointByDegree(
+    const minutesHandleEndPoint = Clock.getPointByDegree(
       minutesDegree, minutesHandleSize, centerX, centerY
     );
     const minutesHandleWidth = Math.ceil(compactRadius * 0.03);
@@ -145,7 +145,7 @@ class Clock extends React.Component {
     // Calculating seconds
     const secondsDegree = time.s / 60 * 360;
     const secondsHandleSize = Math.ceil(compactRadius * 0.42);
-    const secondsHandleEndPoint = this.getPointByDegree(
+    const secondsHandleEndPoint = Clock.getPointByDegree(
       secondsDegree, secondsHandleSize, centerX, centerY
     );
     const secondsHandleWidth = Math.ceil(compactRadius * 0.015);
