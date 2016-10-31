@@ -17,7 +17,7 @@ describe('Clock', () => {
     expect(typeof wrapper.props().radius).toBe('number');
   });
 
-  it('should use the `radius` prop to draw the SVG', () => {
+  it('should accept the `radius` prop to draw the SVG', () => {
     const wrapper = mount(<Clock radius="100" />);
     const svgEl = wrapper.find({ width: '100', height: '100', viewBox: '0 0 100 100' });
     expect(svgEl.type()).toEqual('svg');

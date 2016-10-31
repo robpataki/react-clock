@@ -201,8 +201,14 @@ class Clock extends React.Component {
 
 /* TODO - See multiple type checking */
 Clock.propTypes = {
-  theme: React.PropTypes.object,
-  radius: React.PropTypes.number,
+  theme: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object,
+  ]),
+  radius: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]),
   time: React.PropTypes.string,
 };
 

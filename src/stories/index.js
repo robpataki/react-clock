@@ -17,5 +17,5 @@ storiesOf('Clock', module)
     <Clock time="09:45" />
   ))
   .add('custom size clock', () => (
-    <Clock radius="200" />
+    <Clock radius="120" />
   ));
