@@ -89,9 +89,8 @@ Seconds can also be passed in with the time, but it's really not necessary:
 There is a theme for everyone built into the component (well as long as you like the `light` colour theme, or the `dark` one.
 
     <Clock theme="light" />
-    <Clock theme="dark" />
 
-<img src="./docs/react-clock-03-light-theme.png" width="90" height="90" alt="react-clock light theme" />
+<img src="./docs/react-clock-03-light-theme.gif" width="90" height="90" alt="react-clock light theme" />
 
 ### Using custom themes
 
