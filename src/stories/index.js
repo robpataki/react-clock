@@ -17,12 +17,11 @@ storiesOf('Clock', module)
   ))
   .add('use custom theme', () => (
     <Clock theme={{
-      bezel: 'orange',
-      face: 'black',
-      hour: 'orange',
-      minute: 'orange',
-      second: 'orange',
-      dot: 'black' }}
+      bezel: 'red',
+      face: 'blue',
+      hour: 'black',
+      minute: 'yellow',
+      second: 'rgba(0, 0, 0, 0)' }}
     />
   ))
   .add('hide seconds', () => (
