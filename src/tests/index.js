@@ -12,6 +12,13 @@ describe('Clock', () => {
     expect(wrapper).toExist();
   });
 
+  it('has a default `theme` prop', () => {
+    const wrapper = shallow(<Clock />);
+    const expected = Clock.DEFAULT_THEME;
+    const actual = wrapper.state().theme;
+    expect(actual).toBe(expected);
+  });
+
   it('has a default `radius` prop', () => {
     const wrapper = mount(<Clock />);
     const expected = 'number';
@@ -125,8 +132,43 @@ describe('Clock', () => {
     });
   });
 
-  /* TODO - Test default themes */
-  /* TODO - Test custom theming */
+  describe('configureTheme()', () => {
+    describe('when no theme ID is provided', () => {
+      it('returns the default theme when provided ID can\'t be found', () => {
+        const expected = Clock.DEFAULT_THEME;
+        const actual = Clock.configureTheme();
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('when a theme ID is provided', () => {
+      describe('and the theme ID is a string', () => {
+        it('returns the theme matching the provided ID', () => {
+          const expected = Clock.THEMES.light;
+          const actual = Clock.configureTheme('light');
+          expect(actual).toEqual(expected);
+        });
+
+        it('returns the default theme when provided ID can\'t be found', () => {
+          const expected = Clock.DEFAULT_THEME;
+          const actual = Clock.configureTheme('foo.bar');
+          expect(actual).toEqual(expected);
+        });
+      });
+
+      describe('and the theme ID is an object', () => {
+        it('returns the default theme object extended with the passed in object', () => {
+          const expected = {
+            ...Clock.DEFAULT_THEME,
+            bezel: 'red',
+          };
+          const actual = Clock.configureTheme({ bezel: 'red' });
+          expect(actual).toEqual(expected);
+        });
+      });
+    });
+  });
+
   /* TODO - Should do sanity check on time input */
   /* TODO - See if there is a way to test the timer being stopped on unmount */
 });

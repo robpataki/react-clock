@@ -19,6 +19,9 @@ const THEMES = {
   },
 };
 
+const DEFAULT_THEME_ID = 'dark';
+const DEFAULT_THEME = THEMES[DEFAULT_THEME_ID];
+
 const STATUSES = {
   stopped: 'stopped',
   ticking: 'ticking',
@@ -27,6 +30,10 @@ const STATUSES = {
 class Clock extends React.Component {
   static get THEMES() {
     return THEMES;
+  }
+
+  static get DEFAULT_THEME() {
+    return DEFAULT_THEME;
   }
 
   static get STATUSES() {
@@ -66,38 +73,45 @@ class Clock extends React.Component {
     };
   }
 
+  static configureTheme(userOpt) {
+    let theme = DEFAULT_THEME;
+
+    if (typeof userOpt === 'string' && THEMES[userOpt]) {
+      theme = THEMES[userOpt];
+    } else if (typeof userOpt === 'object') {
+      theme = {
+        ...theme,
+        ...userOpt,
+      };
+    }
+
+    return theme;
+  }
+
   constructor(props, context) {
     super(props, context);
 
-    // Set initial state
-    let time = '00:00:00';
-    if (typeof props.time !== 'undefined') {
-      time = props.time;
-    }
+    const theme = Clock.configureTheme(props.theme);
+    const status = STATUSES.stopped;
+    const time = props.time ? Clock.convertTimeStringToHash(props.time) :
+    Clock.convertTimeStringToHash(Clock.getCurrentTimeString());
 
+    // Set initial state
     this.state = {
-      time: Clock.convertTimeStringToHash(time),
-      status: STATUSES.stopped,
+      time,
+      status,
+      theme,
     };
   }
 
   componentWillMount() {
     if (typeof this.props.time === 'undefined') {
-      this.setState({
-        time: Clock.convertTimeStringToHash(Clock.getCurrentTimeString()),
-      });
       this.startTimer();
     }
-
-    this.setState({ theme: this.findThemeById('light') });
   }
 
   componentWillUnmount() {
     this.stopTimer();
-  }
-
-  findThemeById(themeId) {
-    return THEMES[themeId];
   }
 
   startTimer() {
@@ -124,7 +138,6 @@ class Clock extends React.Component {
     const centerY = radius * 0.5;
     const strokeWidth = radius * 0.02;
     const compactRadius = radius - strokeWidth;
-    // const compactDiameter = compactRadius * 0.5;
 
     // Calculating hours
     const hoursDegree = (time.h + time.m / 60) / 12 * 360;
@@ -199,7 +212,6 @@ class Clock extends React.Component {
   }
 }
 
-/* TODO - See multiple type checking */
 Clock.propTypes = {
   theme: React.PropTypes.oneOfType([
     React.PropTypes.string,
@@ -214,7 +226,7 @@ Clock.propTypes = {
 
 Clock.defaultProps = {
   radius: 90,
-  theme: 'mono-multi-light',
+  theme: DEFAULT_THEME_ID,
 };
 
 export default Clock;

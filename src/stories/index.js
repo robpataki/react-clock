@@ -10,12 +10,25 @@ storiesOf('Clock', module)
       process.env.STORYBOOK_CLOUD_DATABASE: {process.env.STORYBOOK_CLOUD_DATABASE}
     </pre>
   ))
-  .add('ticking clock', () => (
+  .add('ticking', () => (
     <Clock />
   ))
-  .add('frozen clock', () => (
+  .add('no battery', () => (
     <Clock time="09:45" />
   ))
-  .add('custom size clock', () => (
+  .add('custom size', () => (
     <Clock radius="120" />
+  ))
+  .add('built in theme', () => (
+    <Clock theme="light" />
+  ))
+  .add('custom theme', () => (
+    <Clock theme={{
+      bezel: 'orange',
+      face: 'black',
+      hour: 'orange',
+      minute: 'orange',
+      second: 'orange',
+      dot: 'black' }}
+    />
   ));
