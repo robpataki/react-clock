@@ -62,7 +62,7 @@ Use these commands to do the linting:
 
     <Clock />
 
-<img src="./docs/react-clock-01-default.png" width="90" height="90" alt="react-clock default view" />
+<img src="./docs/react-clock-01-default.gif" width="90" height="90" alt="react-clock default view" />
 
 The clock has a default `diameter of 90`, and a `default theme using light colours`. If no time prop is passed in, it will automatically show the time on the user's machine, and it will automatically tick each second to render the current time.
 
