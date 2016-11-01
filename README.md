@@ -75,7 +75,9 @@ The clock has a default `diameter of 90`, and a `default theme using light colou
 
 You can change the size of the clock - small, big - it really doesn't matter.
 
-    <Clock diamater={ 200 } />
+    <Clock diameter={ 20000 } />
+
+That's probably a bit too big.
 
 ### Setting the time (battery out)
 
