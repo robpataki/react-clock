@@ -117,9 +117,8 @@ class Clock extends React.Component {
   startTimer() {
     this.setState({ status: STATUSES.ticking });
 
-    const _this = this;
-    this.timer = setInterval(function () {
-      _this.setState({
+    this.timer = setInterval(() => {
+      this.setState({
         time: Clock.convertTimeStringToHash(Clock.getCurrentTimeString()),
       });
     }, 1000);
