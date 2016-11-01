@@ -2,6 +2,11 @@
 
 This is a simple reusable clock React component to display time in an analogue clock format. See examples below.
 
+## Project prerequisite
+
+1. [Node, NPM](https://nodejs.org/en/download/)
+2. [Storybook](https://www.npmjs.com/package/@kadira/storybook#getting-started)
+
 ## Managing NPM dependencies
 
 This project uses `yarn` instead of `npm`. To make sure you have the correct version of npm packages please use ```yarn install``` instead of ```npm install```.
@@ -13,19 +18,19 @@ This project uses `yarn` instead of `npm`. To make sure you have the correct ver
 
 This component has been setup with [React CDK](https://github.com/kadirahq/react-cdk) and help us to focus on the component development.
 
-## QuickStart
+### QuickStart
 
 * Your component is at `src/index.js`. Open it with an editor.
 * Start React Storybook with: `npm run storybook` (stories at `src/stories/index`).
 * Watch for tests with: `npm run test-watch` (tests at `src/tests`).
 
-## Source Files
+### Source Files
 
 Source files on this project lives under `src` directory and you can write your component using ES2015+. (with babel-preset-stage-2).
 
 `src/index.js` is the main entrypoint in this component and you should expose a React component class from that module(file).
 
-## Developing with React Storybook
+### Developing with React Storybook
 
 [React Storybook](https://github.com/kadirahq/react-storybook) is configured with this component and you can use it to develop your component without a need of an app.
 
@@ -35,7 +40,7 @@ You can run `npm run storybook` to start the React Storybook console.
 
 To learn more about React Storybook, visit [here](https://github.com/kadirahq/react-storybook).
 
-## Testing with Mocha and Enzyme
+### Testing with Mocha and Enzyme
 
 This component is configured to use [Mocha](https://github.com/mochajs/mocha) and [Enzyme](https://github.com/airbnb/enzyme). It's also setup for JSDOM so, you can get the [full use](https://github.com/airbnb/enzyme/blob/master/docs/api/mount.md) of enzyme.
 
@@ -45,7 +50,7 @@ You can write your test cases in `src/tests` directory. There are few commands t
 * `npm run test-watch` - Run all the tests and watch for changes
 * `npm test` - Same as `npm run testonly`, but also do linting before testing.
 
-## Linting
+### Linting
 
 This component uses [ESLint](http://eslint.org/) for linting and uses a slightly modified version of AirBnb style guide (for JS and React).
 
@@ -56,7 +61,7 @@ Use these commands to do the linting:
 * `npm run lint` - Run eslint
 * `npm run lintfix` - Run eslint with --fix flag
 
-## Usage
+## Using the component
 
 ### Default view
 
@@ -94,7 +99,7 @@ There is a theme for everyone built into the component (well as long as you like
 
 ### Using custom themes
 
-If your inner stylist can't be satisfied with the `light` or the `dark` themes, feel free to go wild and use your own colours (I can't be held responsible for visual inconvenience caused by 3rd party colours).
+If your inner stylist can't be satisfied with the `light` or the `dark` themes, feel free to go wild and use your own colours (I can't be held responsible for visual inconvenience caused by 3rd party madness).
 
       <Clock theme={{
         bezel: 'red',
