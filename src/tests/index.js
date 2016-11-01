@@ -19,15 +19,15 @@ describe('Clock', () => {
     expect(actual).toBe(expected);
   });
 
-  it('has a default `radius` prop', () => {
+  it('has a default `diameter` prop', () => {
     const wrapper = mount(<Clock />);
     const expected = 'number';
-    const actual = typeof wrapper.props().radius;
+    const actual = typeof wrapper.props().diameter;
     expect(actual).toBe(expected);
   });
 
-  it('uses the `radius` prop to draw the correct size SVG', () => {
-    const wrapper = mount(<Clock radius="100" />);
+  it('uses the `diameter` prop to draw the correct size SVG', () => {
+    const wrapper = mount(<Clock diameter="100" />);
     const svgEl = wrapper.find({ width: '100', height: '100', viewBox: '0 0 100 100' });
     expect(svgEl.type()).toEqual('svg');
 

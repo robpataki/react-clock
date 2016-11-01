@@ -131,54 +131,54 @@ class Clock extends React.Component {
   }
 
   render() {
-    const { radius } = this.props;
+    const { diameter } = this.props;
     const { time, theme } = this.state;
 
-    const centerX = radius * 0.5;
-    const centerY = radius * 0.5;
-    const strokeWidth = radius * 0.02;
-    const compactRadius = radius - strokeWidth;
+    const centerX = diameter * 0.5;
+    const centerY = diameter * 0.5;
+    const strokeWidth = diameter * 0.02;
+    const compactDiameter = diameter - strokeWidth;
 
     // Calculating hours
     const hoursDegree = (time.h + time.m / 60) / 12 * 360;
-    const hoursHandleSize = Math.ceil(compactRadius * 0.3);
+    const hoursHandleSize = Math.ceil(compactDiameter * 0.3);
     const hoursHandleEndPoint = Clock.getPointByDegree(
       hoursDegree, hoursHandleSize, centerX, centerY
     );
-    const hoursHandleWidth = Math.ceil(compactRadius * 0.04);
+    const hoursHandleWidth = Math.ceil(compactDiameter * 0.04);
 
     // Calculating minutes
     const minutesDegree = time.m / 60 * 360;
-    const minutesHandleSize = Math.ceil(compactRadius * 0.36);
+    const minutesHandleSize = Math.ceil(compactDiameter * 0.36);
     const minutesHandleEndPoint = Clock.getPointByDegree(
       minutesDegree, minutesHandleSize, centerX, centerY
     );
-    const minutesHandleWidth = Math.ceil(compactRadius * 0.03);
+    const minutesHandleWidth = Math.ceil(compactDiameter * 0.03);
 
     // Calculating seconds
     const secondsDegree = time.s / 60 * 360;
-    const secondsHandleSize = Math.ceil(compactRadius * 0.42);
+    const secondsHandleSize = Math.ceil(compactDiameter * 0.42);
     const secondsHandleEndPoint = Clock.getPointByDegree(
       secondsDegree, secondsHandleSize, centerX, centerY
     );
-    const secondsHandleWidth = Math.ceil(compactRadius * 0.015);
+    const secondsHandleWidth = Math.ceil(compactDiameter * 0.015);
 
-    const dotSize = Math.ceil(compactRadius * 0.015);
+    const dotSize = Math.ceil(compactDiameter * 0.015);
 
     const clockStyle = {
       position: 'relative',
-      width: `${radius}px`,
-      height: `${radius}px`,
+      width: `${diameter}px`,
+      height: `${diameter}px`,
     };
 
     const { dot, face, bezel, hour, minute, second } = theme;
 
     return (
       <div style={ clockStyle }>
-        <svg width={ radius } height={ radius } viewBox={ `0 0 ${radius} ${radius}` } xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
+        <svg width={ diameter } height={ diameter } viewBox={ `0 0 ${diameter} ${diameter}` } xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
           <g>
             /* Clock face */
-            <circle cx={ centerX } cy={ centerY } r={ compactRadius * 0.5 } fill={ face }
+            <circle cx={ centerX } cy={ centerY } r={ compactDiameter * 0.5 } fill={ face }
               strokeWidth={ strokeWidth } stroke={ bezel }
             />
           </g>
@@ -216,7 +216,7 @@ Clock.propTypes = {
     React.PropTypes.string,
     React.PropTypes.object,
   ]),
-  radius: React.PropTypes.oneOfType([
+  diameter: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number,
   ]),
@@ -224,7 +224,7 @@ Clock.propTypes = {
 };
 
 Clock.defaultProps = {
-  radius: 90,
+  diameter: 90,
   theme: DEFAULT_THEME_ID,
 };
 

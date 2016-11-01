@@ -10,7 +10,7 @@ storiesOf('Clock', module)
     <Clock time="09:45" />
   ))
   .add('custom size', () => (
-    <Clock radius="120" />
+    <Clock diameter="120" />
   ))
   .add('use built in theme', () => (
     <Clock theme="light" />
