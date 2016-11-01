@@ -168,7 +168,4 @@ describe('Clock', () => {
       });
     });
   });
-
-  /* TODO - Should do sanity check on time input */
-  /* TODO - See if there is a way to test the timer being stopped on unmount */
 });
