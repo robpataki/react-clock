@@ -24,4 +24,24 @@ storiesOf('Clock', module)
       second: 'orange',
       dot: 'black' }}
     />
+  ))
+  .add('hide seconds', () => (
+    <Clock theme={{
+      bezel: 'orange',
+      face: 'black',
+      hour: 'orange',
+      minute: 'orange',
+      second: 'rgba(0, 0, 0, 0)',
+      dot: 'black' }}
+    />
+  ))
+  .add('fully custom', () => (
+    <Clock theme={{
+      bezel: '#0099FF',
+      face: 'rgba(0, 0, 0, 0)',
+      hour: '#0099FF',
+      minute: '#0099FF',
+      second: 'rgba(0, 0, 0, 0)',
+      dot: 'rgba(0, 0, 0, 0)' }}
+    />
   ));
