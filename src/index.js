@@ -178,7 +178,9 @@ class Clock extends React.Component {
         <svg width={ radius } height={ radius } viewBox={ `0 0 ${radius} ${radius}` } xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
           <g>
             /* Clock face */
-            <circle cx={ centerX } cy={ centerY } r={ compactRadius * 0.5 } fill={ face } strokeWidth={ strokeWidth } stroke={ bezel } />
+            <circle cx={ centerX } cy={ centerY } r={ compactRadius * 0.5 } fill={ face }
+              strokeWidth={ strokeWidth } stroke={ bezel }
+            />
           </g>
 
           <g>
