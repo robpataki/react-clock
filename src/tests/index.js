@@ -14,7 +14,9 @@ describe('Clock', () => {
 
   it('has a default `radius` prop', () => {
     const wrapper = mount(<Clock />);
-    expect(typeof wrapper.props().radius).toBe('number');
+    const expected = 'number';
+    const actual = typeof wrapper.props().radius;
+    expect(actual).toBe(expected);
   });
 
   it('uses the `radius` prop to draw the correct size SVG', () => {
@@ -29,14 +31,18 @@ describe('Clock', () => {
   describe('with `time` prop', () => {
     it('doesn\'t tick', () => {
       const wrapper = mount(<Clock time="12:30" />);
-      expect(wrapper.state().status).toEqual(Clock.STATUSES.stopped);
+      const expected = Clock.STATUSES.stopped;
+      const actual = wrapper.state().status;
+      expect(actual).toEqual(expected);
     });
 
     it('keeps the time prop unchanged', (done) => {
       const wrapper = mount(<Clock time="12:30" />);
 
       setTimeout(() => {
-        expect(wrapper.state().time).toEqual({ h: 12, m: 30, s: 0 });
+        const expected = { h: 12, m: 30, s: 0 };
+        const actual = wrapper.state().time;
+        expect(actual).toEqual(expected);
         done();
       }, 1100);
     });
@@ -45,7 +51,9 @@ describe('Clock', () => {
   describe('without `time` prop', () => {
     it('ticks', () => {
       const wrapper = mount(<Clock />);
-      expect(wrapper.state().status).toEqual(Clock.STATUSES.ticking);
+      const expected = Clock.STATUSES.ticking;
+      const actual = wrapper.state().status;
+      expect(actual).toEqual(expected);
     });
 
     it('updates the time automatically', (done) => {
@@ -53,7 +61,9 @@ describe('Clock', () => {
       const firstTime = wrapper.state().time;
 
       setTimeout(() => {
-        expect(wrapper.state().time).toNotEqual(firstTime);
+        const expected = firstTime;
+        const actual = wrapper.state().time;
+        expect(actual.s).toEqual(expected.s + 1);
         done();
       }, 1100);
     });
@@ -64,13 +74,15 @@ describe('Clock', () => {
       const now = new Date();
       const expected = [now.getHours(), now.getMinutes(), now.getSeconds()].join(':');
       const actual = Clock.getCurrentTimeString();
-      expect(expected).toEqual(actual);
+      expect(actual).toEqual(expected);
     });
   });
 
   describe('convertTimeStringToHash()', () => {
     it('converts a `h:m:s` formatted string to {h, m, s} formatted object', () => {
-      expect(Clock.convertTimeStringToHash('16:12:10')).toEqual({ h: 16, m: 12, s: 10 });
+      const expected = { h: 16, m: 12, s: 10 };
+      const actual = Clock.convertTimeStringToHash('16:12:10');
+      expect(actual).toEqual(expected);
     });
   });
 
@@ -88,28 +100,28 @@ describe('Clock', () => {
       let actual = Clock.getPointByDegree(90, radius, centerX, centerY);
       actual = { x: Math.round(actual.x), y: Math.round(actual.y) };
       const expected = { x: 200, y: 100 };
-      expect(expected).toEqual(actual);
+      expect(actual).toEqual(expected);
     });
 
     it('returns the correct x/y positions for 6 o\'clock ', () => {
       let actual = Clock.getPointByDegree(180, radius, centerX, centerY);
       actual = { x: Math.round(actual.x), y: Math.round(actual.y) };
       const expected = { x: 100, y: 200 };
-      expect(expected).toEqual(actual);
+      expect(actual).toEqual(expected);
     });
 
     it('returns the correct x/y positions for 9 o\'clock ', () => {
       let actual = Clock.getPointByDegree(270, radius, centerX, centerY);
       actual = { x: Math.round(actual.x), y: Math.round(actual.y) };
       const expected = { x: 0, y: 100 };
-      expect(expected).toEqual(actual);
+      expect(actual).toEqual(expected);
     });
 
     it('returns the correct x/y positions for 12 o\'clock ', () => {
       let actual = Clock.getPointByDegree(360, radius, centerX, centerY);
       actual = { x: Math.round(actual.x), y: Math.round(actual.y) };
       const expected = { x: 100, y: 0 };
-      expect(expected).toEqual(actual);
+      expect(actual).toEqual(expected);
     });
   });
 
